@@ -1,9 +1,13 @@
-/*
- *
- * You can use the following import statements
- * 
- * import java.util.ArrayList;
- * 
- */
+package com.example.university.repository;
 
-// Write your code here
+import com.example.university.model.Student;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface StudentRepository {
+    List<Student> getStudents();
+    Student getStudentById(int id);
+    Student addStudent(Student student);
+}
