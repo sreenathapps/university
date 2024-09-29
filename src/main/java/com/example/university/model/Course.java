@@ -13,7 +13,18 @@ public class Course {
     @Column(name = "id")
     private int courseId;
 
+    @Column(name = "name")
+    private String courseName;
+
     private String credits;
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
 
     @ManyToOne
     @JoinColumn(name = "professorid")
@@ -55,8 +66,9 @@ public class Course {
         this.students = students;
     }
 
-    public Course(int courseId, String credits, Professor professor, List<Student> students) {
+    public Course(int courseId, String courseName, String credits, Professor professor, List<Student> students) {
         this.courseId = courseId;
+        this.courseName = courseName;
         this.credits = credits;
         this.professor = professor;
         this.students = students;
