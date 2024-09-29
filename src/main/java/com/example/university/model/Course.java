@@ -16,7 +16,7 @@ public class Course {
     @Column(name = "name")
     private String courseName;
 
-    private String credits;
+    private int credits;
 
     public String getCourseName() {
         return courseName;
@@ -42,11 +42,11 @@ public class Course {
         this.courseId = courseId;
     }
 
-    public String getCredits() {
+    public int getCredits() {
         return credits;
     }
 
-    public void setCredits(String credits) {
+    public void setCredits(int credits) {
         this.credits = credits;
     }
 
@@ -66,7 +66,7 @@ public class Course {
         this.students = students;
     }
 
-    public Course(int courseId, String courseName, String credits, Professor professor, List<Student> students) {
+    public Course(int courseId, String courseName, int credits, Professor professor, List<Student> students) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.credits = credits;
