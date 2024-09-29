@@ -72,43 +72,45 @@ public class CourseJpaService implements CourseRepository {
 
     @Override
     public Course updateCourse(int id, Course course) {
-        Course newCourse = courseJpaRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
-        );
+        try {
+            Course newCourse = courseJpaRepository.findById(id).get();
 
-        if (course.getStudents() != null) {
+            if (course.getStudents() != null) {
 //          removing old associations with students
-            for(Student s: newCourse.getStudents()) {
-                s.getCourses().remove(newCourse);
-            }
-            studentJpaRepository.saveAll(newCourse.getStudents());
+                for (Student s : newCourse.getStudents()) {
+                    s.getCourses().remove(newCourse);
+                }
+                studentJpaRepository.saveAll(newCourse.getStudents());
 
-            List<Integer> studIds = new ArrayList<>();            for (Student s: course.getStudents()) studIds.add(s.getStudentId());
+                List<Integer> studIds = new ArrayList<>();
+                for (Student s : course.getStudents()) studIds.add(s.getStudentId());
 //          fetching new Students
-            List<Student> studs = studentJpaRepository.findAllById(studIds);
-            if (studIds.size() != studs.size()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+                List<Student> studs = studentJpaRepository.findAllById(studIds);
+                if (studIds.size() != studs.size()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
 //          adding new associations of students
-            for (Student stud: studs) {
-                stud.getCourses().add(newCourse);
-            }
-            studentJpaRepository.saveAll(studs);
+                for (Student stud : studs) {
+                    stud.getCourses().add(newCourse);
+                }
+                studentJpaRepository.saveAll(studs);
 //          mapping new Students to course
-            newCourse.setStudents(studs);
+                newCourse.setStudents(studs);
+                courseJpaRepository.save(newCourse);
+            }
+            if (course.getCredits() != 0) {
+                newCourse.setCredits(course.getCredits());
+            }
+            if (course.getCourseName() != null) {
+                newCourse.setCourseName(course.getCourseName());
+            }
+            if (course.getProfessor() != null) {
+                int profId = course.getProfessor().getProfessorId();
+                newCourse.setProfessor(professorJpaRepository.findById(profId).get());
+            }
+            return courseJpaRepository.save(newCourse);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        if (course.getCredits() != 0) {
-            newCourse.setCredits(course.getCredits());
-        }
-        if (course.getCourseName() != null) {
-            newCourse.setCourseName(course.getCourseName());
-        }
-        if (course.getProfessor() != null) {
-            int profId = course.getProfessor().getProfessorId();
-            newCourse.setProfessor(professorJpaRepository.findById(profId).orElseThrow(
-                    () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
-            ));
-        }
-        return courseJpaRepository.save(newCourse);
     }
 
     @Override
