@@ -38,7 +38,7 @@ public class CourseController {
     public List<Student> getCourseStudents(@PathVariable int id) {
         return courseJpaService.getCourseStudents(id);
     }
-    @GetMapping("/courses/{id}/professors")
+    @GetMapping("/courses/{id}/professor")
     public Professor getCourseProfessor(@PathVariable int id) {
         return courseJpaService.getCourseProfessor(id);
     }
