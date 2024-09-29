@@ -17,7 +17,7 @@ INSERT INTO Student (id, name, email) VALUES
   (3, 'Eva Wilson', 'eva@example.com');
 
 -- Insert Junction table data
-INSERT INTO Junction (courseId, studentId) VALUES
+INSERT INTO course_student (courseId, studentId) VALUES
   (1, 1),
   (1, 2),
   (2, 2),

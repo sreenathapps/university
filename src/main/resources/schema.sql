@@ -1,5 +1,5 @@
 -- Drop tables if they exist, ignoring any errors that occur
-DROP TABLE IF EXISTS Junction;
+DROP TABLE IF EXISTS course_student;
 DROP TABLE IF EXISTS Course;
 DROP TABLE IF EXISTS Student;
 DROP TABLE IF EXISTS Professor;
@@ -25,7 +25,7 @@ CREATE TABLE Student (
   email TEXT
 );
 
-CREATE TABLE Junction (
+CREATE TABLE course_student (
   studentId INTEGER,
   courseId INTEGER,
   PRIMARY KEY (studentId, courseId),
